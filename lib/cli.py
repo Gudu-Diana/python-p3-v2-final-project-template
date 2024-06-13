@@ -1,8 +1,14 @@
-# lib/app.py
+# lib/cli.py
 
 from lib.models.guest import Guest
 from lib.models.room import Room
-from lib.helpers import validate_integer_input, validate_string_input
+from lib.helpers import (
+    validate_integer_input,
+    validate_string_input,
+    format_guest_info,
+    format_room_info,
+    exit_program,
+)
 
 def main_menu():
     print("Welcome to the Hotel Management System")
@@ -66,7 +72,7 @@ def view_all_guests():
     guests = Guest.get_all()
     if guests:
         for guest in guests:
-            print(f"ID: {guest['id']}, Name: {guest['name']}, Nationality: {guest['nationality']}, Room ID: {guest['room_id']}")
+            print(format_guest_info(guest))
     else:
         print("No guests found.")
 
@@ -85,7 +91,7 @@ def view_all_rooms():
     rooms = Room.get_all()
     if rooms:
         for room in rooms:
-            print(f"ID: {room['id']}, Room Number: {room['room_number']}, Hotel ID: {room['hotel_id']}")
+            print(format_room_info(room))
     else:
         print("No rooms found.")
 
@@ -99,8 +105,7 @@ def run_cli():
         elif choice == 2:
             room_menu()
         elif choice == 3:
-            print("Exiting the application. Goodbye!")
-            break
+            exit_program()
         else:
             print("Invalid choice. Please try again.")
 
